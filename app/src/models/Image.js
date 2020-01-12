@@ -1,3 +1,8 @@
 export default class ImageModel {
-  constructor() {}
+  constructor(id, width, height, url) {
+    this.id = id;
+    this.width = width;
+    this.height = height;
+    this.url = url;
+  }
 }
