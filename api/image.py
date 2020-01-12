@@ -38,4 +38,10 @@ class ImageList(Resource):
         count = args['count']
         left = page * count
         right = left + count
-        return df[left:right].values.tolist()
+
+        result = []
+        data_list = df[left:right].values.tolist()
+        for data in data_list:
+            result.append(f'{data[0]}//{data[1]}/{data[2]}/{data[3]}/{data[4]}/{data[5]}')
+
+        return result

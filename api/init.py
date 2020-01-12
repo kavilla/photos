@@ -19,6 +19,6 @@ df = pd.read_csv(
     glob.glob("./data/*.csv")[0],
     sep='/',
     header=None,
-    usecols=[4, 5, 6],
-    names=['id', 'width', 'height']
+    usecols=[0, 2, 3, 4, 5, 6],
+    names=['protocol', 'url', 'endpoint', 'id', 'width', 'height'],
 ).sort_values('id', ascending=False)
