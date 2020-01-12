@@ -7,8 +7,8 @@ const imageUrl = Config.BASE_URL + 'images';
 let images = [];
 
 const ImageService = {
-  getImages: async function() {
-    const resp = await axios.get(imageUrl);
+  getImages: async function(pageIndex = 0) {
+    const resp = await axios.get(imageUrl + '?page=' + pageIndex);
     images = resp.data.map(image => new ImageModel(image['image_id'], image['width'], image['height'], image['url']));
     return Promise.resolve(images);
   },
