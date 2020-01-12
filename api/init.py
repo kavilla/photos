@@ -5,6 +5,8 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restplus import Api
 
+image_url = 'https://picsum.photos/id/%(image_id)s/%(width)s/%(height)s'
+
 api = Api(
     title='goTenna API',
     version='1.0',
@@ -19,6 +21,6 @@ df = pd.read_csv(
     glob.glob("./data/*.csv")[0],
     sep='/',
     header=None,
-    usecols=[0, 2, 3, 4, 5, 6],
-    names=['protocol', 'url', 'endpoint', 'id', 'width', 'height'],
+    usecols=[4, 5, 6],
+    names=['id', 'width', 'height'],
 ).sort_values('id', ascending=False)

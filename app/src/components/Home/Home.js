@@ -25,7 +25,7 @@ export default class Home extends React.Component {
     const imageCards = this.state.images.map(image => (
       <div className="card">
         <div className="card-middle">
-          <img src={image} alt="Image" />
+          <img src={image.url} alt={image.url} />
         </div>
       </div>
     ));

@@ -4,10 +4,13 @@ import ImageModel from '../models/Image';
 
 const imageUrl = Config.BASE_URL + 'images';
 
+let images = [];
+
 const ImageService = {
   getImages: async function() {
     const resp = await axios.get(imageUrl);
-    return Promise.resolve(resp.data);
+    images = resp.data.map(image => new ImageModel(image['image_id'], image['width'], image['height'], image['url']));
+    return Promise.resolve(images);
   },
 };
 
