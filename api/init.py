@@ -24,3 +24,5 @@ df = pd.read_csv(
     usecols=[4, 5, 6],
     names=['id', 'width', 'height'],
 ).sort_values('id', ascending=False)
+
+df_length = len(df.index)

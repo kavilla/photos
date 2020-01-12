@@ -8,9 +8,21 @@ let images = [];
 
 const ImageService = {
   getImages: async function(pageIndex = 0) {
-    const resp = await axios.get(imageUrl + '?page=' + pageIndex);
-    images = resp.data.map(image => new ImageModel(image['image_id'], image['width'], image['height'], image['url']));
-    return Promise.resolve(images);
+    if (pageIndex < 0) {
+      return Promise.reject('Page index cannot be less than 0.');
+    }
+
+    return axios
+      .get(imageUrl + '?page_index=' + pageIndex)
+      .then(resp => {
+        images = resp.data.map(
+          image => new ImageModel(image['image_id'], image['width'], image['height'], image['url']),
+        );
+        return Promise.resolve(images);
+      })
+      .catch(err => {
+        return Promise.reject(err);
+      });
   },
 };
 

@@ -32,18 +32,26 @@ export default class Home extends React.Component {
       return;
     }
 
+    const lastPageIndex = this.currentPageIndex;
     this.currentPageIndex = nextPageIndex;
 
     this.setState(() => ({
       isLoading: true,
     }));
 
-    ImageService.getImages(this.currentPageIndex).then(resp => {
-      this.setState(() => ({
-        isLoading: false,
-        images: resp,
-      }));
-    });
+    ImageService.getImages(this.currentPageIndex)
+      .then(resp => {
+        this.setState(() => ({
+          isLoading: false,
+          images: resp,
+        }));
+      })
+      .catch(() => {
+        this.currentPageIndex = lastPageIndex;
+        this.setState(() => ({
+          isLoading: false,
+        }));
+      });
   };
 
   render() {
