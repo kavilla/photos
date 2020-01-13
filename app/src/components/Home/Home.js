@@ -4,7 +4,7 @@ import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import './Home.css';
 import './../../App.css';
 import ImageService from '../../services/ImageService';
-import ImageModel from '../../models/Image';
+import Gallery from 'react-photo-gallery';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -39,6 +39,7 @@ export default class Home extends React.Component {
 
     this.setState(() => ({
       isLoading: true,
+      images: [],
     }));
 
     ImageService.getImages(this.currentPageIndex)
@@ -56,8 +57,8 @@ export default class Home extends React.Component {
       });
   };
 
-  handleCardClick = image => {
-    ImageService.setSelectedImage(image).then(resp => {
+  handleCardClick = (_, dict) => {
+    ImageService.setSelectedImage(dict.photo).then(resp => {
       this.setState(() => ({
         showModal: true,
         selectedImage: resp,
@@ -85,22 +86,12 @@ export default class Home extends React.Component {
       });
       return;
     }
-
-    this.setState({
-      [targetId]: event.target.value,
-    });
   };
 
   render() {
-    const imageCards = !this.state.isLoading
-      ? this.state.images.map(image => (
-          <div className="card" key={image.url} onClick={() => this.handleCardClick(image)}>
-            <div className="card-middle">
-              <img src={image.url} alt={image.id} />
-            </div>
-          </div>
-        ))
-      : null;
+    const imageCards = !this.state.isLoading ? (
+      <Gallery photos={this.state.images} onClick={this.handleCardClick} />
+    ) : null;
 
     const prevButton = (
       <div className="prev-button-container btn-primary" onClick={() => this.handleUpdatePageIndex(-1)}>
@@ -119,7 +110,7 @@ export default class Home extends React.Component {
         <div className="app-modal-container">
           <div className="app-modal">
             <div className="app-modal-close-button-container">
-              <Button className="app-modal-close-button btn-light" onClick={() => this.handleHideModal()}>
+              <Button className="app-modal-close-button btn-light" onClick={this.handleHideModal}>
                 X
               </Button>
             </div>
@@ -138,8 +129,8 @@ export default class Home extends React.Component {
               <img
                 src={
                   this.state.selectedImage.isGray
-                    ? this.state.selectedImage.url + '?grayscale'
-                    : this.state.selectedImage.url
+                    ? this.state.selectedImage.src + '?grayscale'
+                    : this.state.selectedImage.src
                 }
                 alt={this.state.selectedImage.id}
               />
