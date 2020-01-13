@@ -5,6 +5,7 @@ import ImageModel from '../models/Image';
 const imageUrl = Config.BASE_URL + 'images';
 
 let images = [];
+let selectedImage = null;
 
 const ImageService = {
   getImages: async function(pageIndex = 0) {
@@ -23,6 +24,15 @@ const ImageService = {
       .catch(err => {
         return Promise.reject(err);
       });
+  },
+
+  getSelectedImage: function() {
+    return Promise.resolve(selectedImage);
+  },
+
+  setSelectedImage: function(image) {
+    selectedImage = image;
+    return Promise.resolve(selectedImage);
   },
 };
 

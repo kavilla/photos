@@ -4,5 +4,6 @@ export default class ImageModel {
     this.width = width;
     this.height = height;
     this.url = url;
+    this.isGray = false;
   }
 }
