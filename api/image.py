@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_restplus import Api, Resource, reqparse
 
-from init import df
-from models import NotFoundException, ImageModel
+from init import df, df_length
+from models import NotFoundException, InvalidRequest, ImageModel
 
 app = Flask(__name__)
 api = Api(app=app)
@@ -27,7 +27,7 @@ class ImageList(Resource):
     def __init__(self, *args, **kwargs):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument(
-            'page',
+            'page_index',
             type=int,
             default=0,
             required=False,
@@ -43,17 +43,32 @@ class ImageList(Resource):
         super(ImageList, self).__init__(*args, **kwargs)
 
     @ns.doc(responses={
-        200: 'Success'
+        200: 'Success',
+        400: 'Invalid Request'
     })
     @ns.marshal_list_with(ImageModel.fields)
     def get(self):
-        args = self.parser.parse_args()
-        page = args['page']
-        count = args['count']
-        left = page * count
-        right = left + count
+        try:
+            args = self.parser.parse_args()
 
-        return map_to_image_list(df[left:right].values.tolist())
+            page = args['page_index']
+            if page < 0:
+                raise InvalidRequest
+
+            count = args['count']
+            left = page * count
+            if df_length <= left:
+                raise InvalidRequest
+
+            right = (left + count)
+
+            return map_to_image_list(df[left:right].values.tolist())
+        except InvalidRequest as e:
+            ns.abort(
+                400,
+                e.__doc__,
+                status='Page index is out of range'
+            )
 
 
 @ns.route('/<int:image_id>')

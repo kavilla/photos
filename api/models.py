@@ -8,6 +8,10 @@ class NotFoundException(Exception):
     pass
 
 
+class InvalidRequest(Exception):
+    pass
+
+
 # Custom Classes
 class ImageModel:
     fields = {
