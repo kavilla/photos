@@ -3,7 +3,7 @@ from flask_restplus import Api, Resource, reqparse
 from pandas.core.groupby.groupby import DataError
 
 from init import df, df_length
-from models import NotFoundException, InvalidRequest, ImageModel
+from models import NotFoundException, InvalidRequestException, InternalServerErrorException, ImageModel
 
 app = Flask(__name__)
 api = Api(app=app)
@@ -13,9 +13,13 @@ ns = api.namespace(
 )
 
 
+# Map list to list of models
 def map_to_image_list(data_list):
     result = []
     for data in data_list:
+        if len(data) != 3:
+            raise InternalServerErrorException
+
         image_id = data[0]
         width = data[1]
         height = data[2]
@@ -57,7 +61,8 @@ class ImageList(Resource):
 
     @ns.doc(responses={
         200: 'Success',
-        400: 'Invalid Request'
+        400: 'Invalid Request',
+        500: 'Internal Server Error'
     })
     @ns.marshal_list_with(ImageModel.fields)
     def get(self):
@@ -69,26 +74,26 @@ class ImageList(Resource):
             height = args['height']
 
             if page < 0:
-                raise InvalidRequest
+                raise InvalidRequestException
 
             left = page * count
             if df_length <= left:
-                raise InvalidRequest
+                raise InvalidRequestException
 
-            right = (left + count)
+            right = left + count
 
-            query_results = []
+            results = []
             if width is None and height is None:
-                query_results = df.iloc[left:right]
+                results = df.iloc[left:right]
             elif width is not None and height is not None:
-                query_results = df.query(f'width == {width} & height == {height}').iloc[left:right]
+                results = df.query(f'width == {width} & height == {height}').iloc[left:right]
             elif width is not None:
-                query_results = df.query(f'width == {width}').iloc[left:right]
+                results = df.query(f'width == {width}').iloc[left:right]
             elif height is not None:
-                query_results = df.query(f'height == {height}').iloc[left:right]
+                results = df.query(f'height == {height}').iloc[left:right]
 
-            return map_to_image_list(query_results.values.tolist())
-        except InvalidRequest as e:
+            return map_to_image_list(results.values.tolist())
+        except InvalidRequestException as e:
             ns.abort(
                 400,
                 e.__doc__,
@@ -117,6 +122,7 @@ class Image(Resource):
             if len(result) == 0:
                 raise NotFoundException
 
+            # Intentionally returning first result even with conflicts
             return result[0]
         except NotFoundException as e:
             ns.abort(
