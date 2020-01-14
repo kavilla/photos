@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restplus import Api, Resource, reqparse
+from pandas.core.groupby.groupby import DataError
 
 from init import df, df_length
 from models import NotFoundException, InvalidRequest, ImageModel
@@ -27,18 +28,30 @@ class ImageList(Resource):
     def __init__(self, *args, **kwargs):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument(
-            'page_index',
+            'pageIndex',
             type=int,
             default=0,
             required=False,
-            help='Page Index'
+            help='Page index'
         )
         self.parser.add_argument(
             'count',
             type=int,
             default=10,
             required=False,
-            help='Number of Results'
+            help='Number of results'
+        )
+        self.parser.add_argument(
+            'width',
+            type=int,
+            required=False,
+            help='Filter results by width'
+        )
+        self.parser.add_argument(
+            'height',
+            type=int,
+            required=False,
+            help='Filter results by height'
         )
         super(ImageList, self).__init__(*args, **kwargs)
 
@@ -50,24 +63,43 @@ class ImageList(Resource):
     def get(self):
         try:
             args = self.parser.parse_args()
+            page = args['pageIndex']
+            count = args['count']
+            width = args['width']
+            height = args['height']
 
-            page = args['page_index']
             if page < 0:
                 raise InvalidRequest
 
-            count = args['count']
             left = page * count
             if df_length <= left:
                 raise InvalidRequest
 
             right = (left + count)
 
-            return map_to_image_list(df[left:right].values.tolist())
+            query_results = []
+            if width is None and height is None:
+                query_results = df.iloc[left:right]
+            elif width is not None and height is not None:
+                query_results = df.query(f'width == {width} & height == {height}').iloc[left:right]
+            elif width is not None:
+                query_results = df.query(f'width == {width}').iloc[left:right]
+            elif height is not None:
+                query_results = df.query(f'height == {height}').iloc[left:right]
+
+            return map_to_image_list(query_results.values.tolist())
         except InvalidRequest as e:
             ns.abort(
                 400,
                 e.__doc__,
                 status='Page index is out of range'
+            )
+        except DataError as e:
+            app.logger.error(e)
+            ns.abort(
+                500,
+                e.__doc__,
+                status='Data frame error'
             )
 
 

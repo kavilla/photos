@@ -10,16 +10,17 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    this.currentPageIndex = 0;
+    this.queryParameters = {
+      width: null,
+      height: null,
+      pageIndex: 0,
+    };
+
     this.state = {
       isLoading: true,
       images: [],
       showModal: false,
       selectedImage: null,
-      searchFilter: {
-        width: null,
-        height: null,
-      },
     };
 
     ImageService.getImages().then(resp => {
@@ -31,21 +32,20 @@ export default class Home extends React.Component {
   }
 
   handleUpdatePageIndex = value => {
-    const nextPageIndex = this.currentPageIndex + value >= 0 ? this.currentPageIndex + value : 0;
+    const nextPageIndex = this.queryParameters.pageIndex + value >= 0 ? this.queryParameters.pageIndex + value : 0;
 
-    if (this.currentPageIndex === nextPageIndex) {
+    if (this.queryParameters.pageIndex === nextPageIndex) {
       return;
     }
 
-    const lastPageIndex = this.currentPageIndex;
-    this.currentPageIndex = nextPageIndex;
+    const lastPageIndex = this.queryParameters.pageIndex;
+    this.queryParameters.pageIndex = nextPageIndex;
 
     this.setState(() => ({
       isLoading: true,
-      images: [],
     }));
 
-    ImageService.getImages({ pageIndex: this.currentPageIndex })
+    ImageService.getImages(this.queryParameters)
       .then(resp => {
         this.setState(() => ({
           isLoading: false,
@@ -53,10 +53,10 @@ export default class Home extends React.Component {
         }));
       })
       .catch(() => {
-        this.currentPageIndex = lastPageIndex;
         this.setState(() => ({
           isLoading: false,
         }));
+        this.queryParameters.pageIndex = lastPageIndex;
       });
   };
 
@@ -91,16 +91,11 @@ export default class Home extends React.Component {
   };
 
   handleSearchChange = event => {
-    this.setState({
-      searchFilter: {
-        ...this.state.searchFilter,
-        [event.target.name]: event.target.value,
-      },
-    });
+    this.queryParameters[event.target.name] = event.target.value;
   };
 
   filterImages = () => {
-    ImageService.getImages(this.state.searchFilter).then(resp => {
+    ImageService.getImages(this.queryParameters).then(resp => {
       this.setState(() => ({
         isLoading: false,
         images: resp,
