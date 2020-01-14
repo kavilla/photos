@@ -4,8 +4,8 @@ import './App.css';
 class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
+      <div>
+        <header>
           <p>
             <code>Photo Viewing App</code>
           </p>
