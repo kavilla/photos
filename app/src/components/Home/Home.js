@@ -11,12 +11,15 @@ export default class Home extends React.Component {
     super(props);
 
     this.currentPageIndex = 0;
-
     this.state = {
       isLoading: true,
       images: [],
       showModal: false,
       selectedImage: null,
+      searchFilter: {
+        width: null,
+        height: null,
+      },
     };
 
     ImageService.getImages().then(resp => {
@@ -42,7 +45,7 @@ export default class Home extends React.Component {
       images: [],
     }));
 
-    ImageService.getImages(this.currentPageIndex)
+    ImageService.getImages({ pageIndex: this.currentPageIndex })
       .then(resp => {
         this.setState(() => ({
           isLoading: false,
@@ -57,8 +60,8 @@ export default class Home extends React.Component {
       });
   };
 
-  handleCardClick = (_, dict) => {
-    ImageService.setSelectedImage(dict.photo).then(resp => {
+  handleCardClick = (_, options) => {
+    ImageService.setSelectedImage(options.photo).then(resp => {
       this.setState(() => ({
         showModal: true,
         selectedImage: resp,
@@ -84,11 +87,48 @@ export default class Home extends React.Component {
           selectedImage: resp,
         });
       });
-      return;
     }
   };
 
+  handleSearchChange = event => {
+    this.setState({
+      searchFilter: {
+        ...this.state.searchFilter,
+        [event.target.name]: event.target.value,
+      },
+    });
+  };
+
+  filterImages = () => {
+    ImageService.getImages(this.state.searchFilter).then(resp => {
+      this.setState(() => ({
+        isLoading: false,
+        images: resp,
+      }));
+    });
+  };
+
   render() {
+    const searchBar = (
+      <div>
+        <input
+          type="text"
+          name="width"
+          placeholder="Search by width..."
+          className="form-control app-search-bar"
+          onChange={this.handleSearchChange}
+        />
+        <input
+          type="text"
+          name="height"
+          placeholder="Search by height..."
+          className="form-control app-search-bar"
+          onChange={this.handleSearchChange}
+        />
+        <Button onClick={this.filterImages}>Search</Button>
+      </div>
+    );
+
     const imageCards = !this.state.isLoading ? (
       <Gallery photos={this.state.images} onClick={this.handleCardClick} />
     ) : null;
@@ -141,6 +181,7 @@ export default class Home extends React.Component {
 
     return (
       <div className="home">
+        <div>{searchBar}</div>
         <div className="card-container">{imageCards}</div>
         <div>{prevButton}</div>
         <div>{nextButton}</div>

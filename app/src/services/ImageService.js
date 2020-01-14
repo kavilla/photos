@@ -8,13 +8,28 @@ let images = [];
 let selectedImage = null;
 
 const ImageService = {
-  getImages: async function(pageIndex = 0) {
-    if (pageIndex < 0) {
-      return Promise.reject('Page index cannot be less than 0.');
+  getImages: async function(options) {
+    let url = imageUrl;
+    console.log(options);
+    if (options) {
+      try {
+        Object.keys(options).forEach((key, index) => {
+          if (isNaN(options[key])) {
+            throw new Error(options[key] + 'is not a number.');
+          }
+
+          if (options[key] < 0) {
+            throw new Error(options[key] + 'cannot be less than 0.');
+          }
+          url += (index === 0 ? '?' : '&') + key + '=' + options[key];
+        });
+      } catch (error) {
+        return Promise.reject(error.message);
+      }
     }
 
     return axios
-      .get(imageUrl + '?page_index=' + pageIndex)
+      .get(url)
       .then(resp => {
         images = resp.data.map(
           image => new ImageModel(image['image_id'], image['width'], image['height'], image['url']),
