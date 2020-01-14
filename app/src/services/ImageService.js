@@ -6,6 +6,12 @@ const imageUrl = Config.BASE_URL + 'images';
 
 let images = [];
 
+/**
+ * Returns request URL with appropriate query parameters
+ *
+ * @param {object=} options
+ * @private
+ */
 function generateUrl(options) {
   let url = imageUrl;
   if (options) {
@@ -32,6 +38,14 @@ function generateUrl(options) {
 }
 
 const ImageService = {
+  /**
+   * Appends optional query parameters to request and performs request to API
+   *
+   * @param {number=} options['pageIndex']
+   * @param {number=} options['width']
+   * @param {number=} options['height']
+   * @public
+   */
   getImages: async function(options) {
     let url = null;
     try {
