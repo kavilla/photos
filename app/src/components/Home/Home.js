@@ -106,17 +106,17 @@ export default class Home extends React.Component {
           type="text"
           name="width"
           placeholder="Width..."
-          className="form-control filter-item filter-search-bar"
+          className="form-control home-non-body-item filter-search-bar"
           onChange={this.handleSearchChange}
         />
         <input
           type="text"
           name="height"
           placeholder="Height..."
-          className="form-control filter-item filter-search-bar"
+          className="form-control home-non-body-item filter-search-bar"
           onChange={this.handleSearchChange}
         />
-        <Button className="form-control filter-item" onClick={this.filterImages}>
+        <Button className="form-control home-non-body-item" onClick={this.filterImages}>
           Filter
         </Button>
       </div>
@@ -124,11 +124,11 @@ export default class Home extends React.Component {
 
     const footer = (
       <div className="page-index-container">
-        <Button className="form-control page-index-item btn-light" onClick={() => this.handleUpdatePageIndex(-1)}>
+        <Button className="form-control home-non-body-item btn-light" onClick={() => this.handleUpdatePageIndex(-1)}>
           Previous
         </Button>
-        <span className="page-index-item page-index">{this.state.currentPageIndex + 1}</span>
-        <Button className="form-control page-index-item" onClick={() => this.handleUpdatePageIndex(1)}>
+        <span className="home-non-body-item page-index">{this.state.currentPageIndex + 1}</span>
+        <Button className="form-control home-non-body-item" onClick={() => this.handleUpdatePageIndex(1)}>
           Next
         </Button>
       </div>
@@ -177,9 +177,9 @@ export default class Home extends React.Component {
 
     return (
       <div className="home">
-        <div className="home-header">{header}</div>
+        <div className="home-non-body">{header}</div>
         <div className="home-body">{body}</div>
-        <div className="home-footer">{footer}</div>
+        <div className="home-non-body">{footer}</div>
         <div>{imageModal}</div>
       </div>
     );

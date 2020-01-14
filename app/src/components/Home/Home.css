@@ -6,10 +6,20 @@
   margin: 0.25em 1.25em;
 }
 
-.home-header {
+.home-non-body {
   width: 100%;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+}
+
+.home-non-body-item {
+  margin: 0.25em;
+}
+
+.home-body {
+  flex: 1;
+  overflow-y: auto;
+  background: lightgray;
 }
 
 .filter-container {
@@ -20,24 +30,8 @@
   margin-left: auto;
 }
 
-.filter-item {
-  margin: 0.25em;
-}
-
 .filter-search-bar {
   border-radius: 4em;
-}
-
-.home-body {
-  flex: 1;
-  overflow-y: auto;
-  background: lightgray;
-}
-
-.home-footer {
-  width: 100%;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
 }
 
 .page-index-container {
@@ -46,10 +40,6 @@
   max-width: 18em;
   margin-right: 0;
   margin-left: auto;
-}
-
-.page-index-item {
-  margin: 0.25em;
 }
 
 .page-index {
