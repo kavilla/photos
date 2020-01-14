@@ -7,25 +7,38 @@ const imageUrl = Config.BASE_URL + 'images';
 let images = [];
 let selectedImage = null;
 
+function generateUrl(options) {
+  let url = imageUrl;
+  if (options) {
+    Object.keys(options).forEach(key => {
+      if (options[key] === '' || options[key] === null) {
+        delete options[key];
+        return;
+      }
+    });
+
+    Object.keys(options).forEach((key, index) => {
+      const value = options[key];
+      if (isNaN(value)) {
+        throw new Error(key + 'is not a number.');
+      }
+
+      if (value < 0) {
+        throw new Error(key + 'cannot be less than 0.');
+      }
+      url += (index === 0 ? '?' : '&') + key + '=' + value;
+    });
+  }
+  return url;
+}
+
 const ImageService = {
   getImages: async function(options) {
-    let url = imageUrl;
-    console.log(options);
-    if (options) {
-      try {
-        Object.keys(options).forEach((key, index) => {
-          if (isNaN(options[key])) {
-            throw new Error(options[key] + 'is not a number.');
-          }
-
-          if (options[key] < 0) {
-            throw new Error(options[key] + 'cannot be less than 0.');
-          }
-          url += (index === 0 ? '?' : '&') + key + '=' + options[key];
-        });
-      } catch (error) {
-        return Promise.reject(error.message);
-      }
+    let url = null;
+    try {
+      url = generateUrl(options);
+    } catch (error) {
+      return Promise.reject(error.message);
     }
 
     return axios
