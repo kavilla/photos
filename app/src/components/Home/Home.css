@@ -6,6 +6,61 @@
   margin: 0.25em 1.25em;
 }
 
+.home-header {
+  width: 100%;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 22em;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.filter-item {
+  margin: 0.25em;
+}
+
+.filter-search-bar {
+  border-radius: 4em;
+}
+
+.home-body {
+  flex: 1;
+  overflow-y: auto;
+  background: lightgray;
+}
+
+.home-footer {
+  width: 100%;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.page-index-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 18em;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.page-index-item {
+  margin: 0.25em;
+}
+
+.page-index {
+  font-size: 1rem;
+  display: block;
+  line-height: 1.5;
+  padding: 0.275rem 0.75rem;
+  width: 12em;
+  text-align: center;
+}
+
 .card {
   display: block;
   color: black;
@@ -32,12 +87,6 @@
 
 .card .card-bottom .card-bottom-item-small {
   flex-grow: 1;
-}
-
-.card-container {
-  flex: 1;
-  overflow-y: auto;
-  background: lightgray;
 }
 
 .prev-button-container {
@@ -84,26 +133,4 @@
   flex: 1;
   font-size: 4em;
   margin-top: -0.15em;
-}
-
-.filter-container {
-  width: 100%;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.filter-container-items {
-  display: flex;
-  flex-direction: row;
-  max-width: 22em;
-  margin-right: 0;
-  margin-left: auto;
-}
-
-.filter-container-item {
-  margin: 0.25em;
-}
-
-.filter-search-bar {
-  border-radius: 4em;
 }
