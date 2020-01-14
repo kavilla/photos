@@ -1,6 +1,6 @@
 # Photo Viewer Application for goTenna
 
-Project to implement an photo viewer application using
+Project to implement a photo viewer application using
 Python, Flask, FlaskRestPlus, and Pandas.
 Front end was built in ReactJS, which was bootstrapped with
 [Create React App](https://github.com/facebook/create-react-app).
