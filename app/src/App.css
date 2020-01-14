@@ -14,8 +14,8 @@
 .app-modal {
   display: flex;
   flex-direction: column;
-  width: 40em;
-  max-height: 40em;
+  width: 50em;
+  max-height: 50em;
   background: white;
   padding: 2em;
   border-radius: 0.75em;
@@ -55,4 +55,33 @@
 .app-modal textarea {
   resize: none;
   margin-bottom: 0.5em;
+}
+
+.app-modal .checkbox-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.app-modal .checkbox {
+  height: 1em;
+  flex: 1;
+  margin-top: 0.3em;
+}
+
+.app-modal .checkbox:focus {
+  box-shadow: none;
+}
+
+.app-modal .checkbox-label {
+  flex: 15;
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.app-modal .img-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }

@@ -140,7 +140,7 @@ export default class Home extends React.Component {
       </div>
     );
 
-    const imageContainer =
+    const body =
       !this.state.isLoading && this.state.images.length > 0 ? (
         <div>
           <Gallery photos={this.state.images} onClick={this.handleCardClick} direction={'column'} />
@@ -157,17 +157,25 @@ export default class Home extends React.Component {
               </Button>
             </div>
             <div className="app-modal-item">
-              <FormGroup controlId="isGray" className="signup-checkbox-container">
+              <h5 className>Source: {this.state.selectedImage.src}</h5>
+            </div>
+            <div className="app-modal-item">
+              <span>
+                ({this.state.selectedImage.width} x {this.state.selectedImage.height})
+              </span>
+            </div>
+            <div className="app-modal-item">
+              <FormGroup controlId="isGray" className="checkbox-container">
                 <FormControl
                   value={this.state.selectedImage.isGray}
                   onChange={event => this.handleChange(event, this.state.selectedImage)}
                   type="checkbox"
-                  className="signup-checkbox"
+                  className="checkbox"
                 />
-                <FormLabel className="signup-checkbox-label">Is Gray?</FormLabel>
+                <FormLabel className="checkbox-label">Show in grayscale?</FormLabel>
               </FormGroup>
             </div>
-            <div className="app-modal-item">
+            <div className="app-modal-item img-container">
               <img
                 src={
                   this.state.selectedImage.isGray
@@ -184,7 +192,7 @@ export default class Home extends React.Component {
     return (
       <div className="home">
         <div className="home-header">{header}</div>
-        <div className="home-body">{imageContainer}</div>
+        <div className="home-body">{body}</div>
         <div className="home-footer">{footer}</div>
         <div>{imageModal}</div>
       </div>
