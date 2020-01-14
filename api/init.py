@@ -5,6 +5,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restplus import Api
 
+# Changing this would impact the image model
 image_url = 'https://picsum.photos/id/%(image_id)s/%(width)s/%(height)s'
 
 api = Api(
@@ -15,7 +16,7 @@ api = Api(
 
 app = Flask(__name__)
 
-cors = CORS(app, resources={r"*": {"origins": "*"}})
+CORS(app, resources={r"*": {"origins": "*"}})
 
 df = pd.read_csv(
     glob.glob("./data/*.csv")[0],

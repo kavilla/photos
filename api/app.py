@@ -1,5 +1,5 @@
-from init import api, app
 from image import ns as ns_image
+from init import api, app
 
 api.add_namespace(ns_image)
 

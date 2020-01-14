@@ -5,8 +5,13 @@ import ImageModel from '../models/Image';
 const imageUrl = Config.BASE_URL + 'images';
 
 let images = [];
-let selectedImage = null;
 
+/**
+ * Returns request URL with appropriate query parameters
+ *
+ * @param {object=} options
+ * @private
+ */
 function generateUrl(options) {
   let url = imageUrl;
   if (options) {
@@ -33,6 +38,14 @@ function generateUrl(options) {
 }
 
 const ImageService = {
+  /**
+   * Appends optional query parameters to request and performs request to API
+   *
+   * @param {number=} options['pageIndex']
+   * @param {number=} options['width']
+   * @param {number=} options['height']
+   * @public
+   */
   getImages: async function(options) {
     let url = null;
     try {
@@ -52,15 +65,6 @@ const ImageService = {
       .catch(err => {
         return Promise.reject(err);
       });
-  },
-
-  getSelectedImage: function() {
-    return Promise.resolve(selectedImage);
-  },
-
-  setSelectedImage: function(image) {
-    selectedImage = image;
-    return Promise.resolve(selectedImage);
   },
 };
 

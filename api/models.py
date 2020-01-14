@@ -8,7 +8,11 @@ class NotFoundException(Exception):
     pass
 
 
-class InvalidRequest(Exception):
+class InvalidRequestException(Exception):
+    pass
+
+
+class InternalServerErrorException(Exception):
     pass
 
 

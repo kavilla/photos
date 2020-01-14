@@ -23,10 +23,10 @@ export default class Home extends React.Component {
       selectedImage: null,
     };
 
-    ImageService.getImages().then(resp => {
+    ImageService.getImages().then(images => {
       this.setState(() => ({
         isLoading: false,
-        images: resp,
+        images: images,
       }));
     });
   }
@@ -48,13 +48,13 @@ export default class Home extends React.Component {
     ImageService.getImages(this.queryParameters)
       .then(resp => {
         this.setState(() => ({
-          isLoading: false,
           images: resp,
-          currentPageIndex: this.queryParameters.pageIndex,
         }));
       })
       .catch(() => {
         this.queryParameters.pageIndex = lastPageIndex;
+      })
+      .finally(() => {
         this.setState(() => ({
           isLoading: false,
           currentPageIndex: this.queryParameters.pageIndex,
@@ -62,32 +62,26 @@ export default class Home extends React.Component {
       });
   };
 
-  handleCardClick = (_, options) => {
-    ImageService.setSelectedImage(options.photo).then(resp => {
-      this.setState(() => ({
-        showModal: true,
-        selectedImage: resp,
-      }));
-    });
+  handlePhotoClick = (_, options) => {
+    this.setState(() => ({
+      showModal: true,
+      selectedImage: options.photo,
+    }));
   };
 
   handleHideModal = () => {
-    ImageService.setSelectedImage(null).then(() => {
-      this.setState(() => ({
-        showModal: false,
-        selectedImage: null,
-      }));
-    });
+    this.setState(() => ({
+      showModal: false,
+      selectedImage: null,
+    }));
   };
 
   handleChange = (event, image) => {
     const targetId = event.target.id;
     if (targetId === 'isGray') {
       image.isGray = event.target.checked;
-      ImageService.setSelectedImage(image).then(resp => {
-        this.setState({
-          selectedImage: resp,
-        });
+      this.setState({
+        selectedImage: image,
       });
     }
   };
@@ -112,17 +106,17 @@ export default class Home extends React.Component {
           type="text"
           name="width"
           placeholder="Width..."
-          className="form-control filter-item filter-search-bar"
+          className="form-control home-non-body-item filter-search-bar"
           onChange={this.handleSearchChange}
         />
         <input
           type="text"
           name="height"
           placeholder="Height..."
-          className="form-control filter-item filter-search-bar"
+          className="form-control home-non-body-item filter-search-bar"
           onChange={this.handleSearchChange}
         />
-        <Button className="form-control filter-item" onClick={this.filterImages}>
+        <Button className="form-control home-non-body-item" onClick={this.filterImages}>
           Filter
         </Button>
       </div>
@@ -130,11 +124,11 @@ export default class Home extends React.Component {
 
     const footer = (
       <div className="page-index-container">
-        <Button className="form-control page-index-item btn-light" onClick={() => this.handleUpdatePageIndex(-1)}>
+        <Button className="form-control home-non-body-item btn-light" onClick={() => this.handleUpdatePageIndex(-1)}>
           Previous
         </Button>
-        <span className="page-index-item page-index">{this.state.currentPageIndex + 1}</span>
-        <Button className="form-control page-index-item" onClick={() => this.handleUpdatePageIndex(1)}>
+        <span className="home-non-body-item page-index">{this.state.currentPageIndex + 1}</span>
+        <Button className="form-control home-non-body-item" onClick={() => this.handleUpdatePageIndex(1)}>
           Next
         </Button>
       </div>
@@ -142,9 +136,7 @@ export default class Home extends React.Component {
 
     const body =
       !this.state.isLoading && this.state.images.length > 0 ? (
-        <div>
-          <Gallery photos={this.state.images} onClick={this.handleCardClick} direction={'column'} />
-        </div>
+        <Gallery photos={this.state.images} onClick={this.handlePhotoClick} direction={'column'} />
       ) : null;
 
     const imageModal =
@@ -156,25 +148,19 @@ export default class Home extends React.Component {
                 X
               </Button>
             </div>
-            <div className="app-modal-item">
-              <h5 className>Source: {this.state.selectedImage.src}</h5>
-            </div>
-            <div className="app-modal-item">
-              <span>
-                ({this.state.selectedImage.width} x {this.state.selectedImage.height})
-              </span>
-            </div>
-            <div className="app-modal-item">
-              <FormGroup controlId="isGray" className="checkbox-container">
-                <FormControl
-                  value={this.state.selectedImage.isGray}
-                  onChange={event => this.handleChange(event, this.state.selectedImage)}
-                  type="checkbox"
-                  className="checkbox"
-                />
-                <FormLabel className="checkbox-label">Show in grayscale?</FormLabel>
-              </FormGroup>
-            </div>
+            <h5 className="app-modal-item">Source: {this.state.selectedImage.src}</h5>
+            <span className="app-modal-item">
+              ({this.state.selectedImage.width} x {this.state.selectedImage.height})
+            </span>
+            <FormGroup controlId="isGray" className="app-modal-item checkbox-container">
+              <FormControl
+                value={this.state.selectedImage.isGray}
+                onChange={event => this.handleChange(event, this.state.selectedImage)}
+                type="checkbox"
+                className="checkbox"
+              />
+              <FormLabel className="checkbox-label">Show in grayscale?</FormLabel>
+            </FormGroup>
             <div className="app-modal-item img-container">
               <img
                 src={
@@ -191,9 +177,9 @@ export default class Home extends React.Component {
 
     return (
       <div className="home">
-        <div className="home-header">{header}</div>
+        <div className="home-non-body">{header}</div>
         <div className="home-body">{body}</div>
-        <div className="home-footer">{footer}</div>
+        <div className="home-non-body">{footer}</div>
         <div>{imageModal}</div>
       </div>
     );
