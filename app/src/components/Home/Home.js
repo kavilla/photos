@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import './Home.css';
 import './../../App.css';
@@ -125,7 +124,7 @@ export default class Home extends React.Component {
     );
 
     const imageCards = !this.state.isLoading ? (
-      <Gallery photos={this.state.images} onClick={this.handleCardClick} />
+      <Gallery photos={this.state.images} onClick={this.handleCardClick} direction={'column'} />
     ) : null;
 
     const prevButton = (
