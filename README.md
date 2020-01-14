@@ -36,6 +36,7 @@ Front end was built in ReactJS, which was bootstrapped with
   python run.py
   ```
 * Open to [http://localhost:5000](http://localhost:5000) to get the swagger page.
+* Feel free to put any formatted CSV file in src/api as long as it is formatted properly and is a CSV filetype. 
 
 `How to run the UI:`
 
