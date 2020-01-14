@@ -12,7 +12,7 @@ Front end was built in ReactJS, which was bootstrapped with
 ### Things I wanted to do but due to schedule can't do by deadline
 
 * [Unit testing](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCUOih9J7Ahx7hbA3yUE4ucf4UnGxegwqluZ6__4Dmkhw43KoQ&s)
-* User Authorization - JWT-based authorization 
+* User Authorization - [JWT-based authorization](https://oauth.net/code/python/) 
 
 ### Getting started
 
