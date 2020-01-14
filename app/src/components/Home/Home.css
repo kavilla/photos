@@ -85,3 +85,25 @@
   font-size: 4em;
   margin-top: -0.15em;
 }
+
+.filter-container {
+  width: 100%;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.filter-container-items {
+  display: flex;
+  flex-direction: row;
+  max-width: 22em;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.filter-container-item {
+  margin: 0.25em;
+}
+
+.filter-search-bar {
+  border-radius: 4em;
+}

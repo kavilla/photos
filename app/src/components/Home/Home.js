@@ -103,23 +103,27 @@ export default class Home extends React.Component {
   };
 
   render() {
-    const searchBar = (
-      <div>
-        <input
-          type="text"
-          name="width"
-          placeholder="Search by width..."
-          className="form-control app-search-bar"
-          onChange={this.handleSearchChange}
-        />
-        <input
-          type="text"
-          name="height"
-          placeholder="Search by height..."
-          className="form-control app-search-bar"
-          onChange={this.handleSearchChange}
-        />
-        <Button onClick={this.filterImages}>Search</Button>
+    const filterContainer = (
+      <div className="filter-container">
+        <div className="filter-container-items">
+          <input
+            type="text"
+            name="width"
+            placeholder="Width..."
+            className="form-control filter-container-item filter-search-bar"
+            onChange={this.handleSearchChange}
+          />
+          <input
+            type="text"
+            name="height"
+            placeholder="Height..."
+            className="form-control filter-container-item filter-search-bar"
+            onChange={this.handleSearchChange}
+          />
+          <Button className="form-control filter-container-item" onClick={this.filterImages}>
+            Filter
+          </Button>
+        </div>
       </div>
     );
 
@@ -175,7 +179,7 @@ export default class Home extends React.Component {
 
     return (
       <div className="home">
-        <div>{searchBar}</div>
+        <div>{filterContainer}</div>
         <div className="card-container">{imageCards}</div>
         <div>{prevButton}</div>
         <div>{nextButton}</div>
