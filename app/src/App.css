@@ -1,32 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
-}
-
-.app-search-bar {
-  border-radius: 4em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
-
 .app-modal-container {
   display: flex;
   flex-direction: column;
@@ -43,8 +14,8 @@
 .app-modal {
   display: flex;
   flex-direction: column;
-  width: 40em;
-  max-height: 40em;
+  width: 50em;
+  max-height: 50em;
   background: white;
   padding: 2em;
   border-radius: 0.75em;
@@ -86,105 +57,31 @@
   margin-bottom: 0.5em;
 }
 
-.app-slider {
+.app-modal .checkbox-container {
   display: flex;
+  flex-direction: row;
 }
 
-.app-slider span {
+.app-modal .checkbox {
+  height: 1em;
   flex: 1;
-  font-weight: bold;
+  margin-top: 0.3em;
 }
 
-input[type='range'] {
-  flex: 3;
-  height: 34px;
-  -webkit-appearance: none;
+.app-modal .checkbox:focus {
+  box-shadow: none;
 }
 
-input[type='range']:focus {
-  outline: none;
+.app-modal .checkbox-label {
+  flex: 15;
+  font-size: 1rem;
+  margin-bottom: 0;
 }
 
-input[type='range']::-webkit-slider-runnable-track {
+.app-modal .img-container {
   width: 100%;
-  height: 4px;
-  cursor: pointer;
-  animate: 0.2s;
-  background: lightgray;
-  border-radius: 1px;
-  border: 0px solid #010101;
-}
-
-input[type='range']::-webkit-slider-thumb {
-  border: 0.025em solid #00001e;
-  height: 26px;
-  width: 26px;
-  border-radius: 15px;
-  background: #ffffff;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -11.5px;
-}
-
-input[type='range']:focus::-webkit-slider-runnable-track {
-  background: lightgray;
-}
-
-input[type='range']::-moz-range-track {
-  width: 100%;
-  height: 4px;
-  cursor: pointer;
-  animate: 0.2s;
-  background: lightgray;
-  border-radius: 1px;
-  border: 0px solid #010101;
-}
-
-input[type='range']::-moz-range-thumb {
-  border: 1px solid #00001e;
-  height: 26px;
-  width: 26px;
-  border-radius: 15px;
-  background: #ffffff;
-  cursor: pointer;
-}
-
-input[type='range']::-ms-track {
-  width: 100%;
-  height: 4px;
-  cursor: pointer;
-  animate: 0.2s;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-
-input[type='range']::-ms-fill-lower {
-  background: lightgray;
-  border: 0px solid #010101;
-  border-radius: 2px;
-}
-
-input[type='range']::-ms-fill-upper {
-  background: lightgray;
-  border: 0px solid #010101;
-  border-radius: 2px;
-}
-
-input[type='range']::-ms-thumb {
-  margin-top: 1px;
-  border: 1px solid #00001e;
-  height: 26px;
-  width: 26px;
-  border-radius: 15px;
-  background: #ffffff;
-  cursor: pointer;
-}
-
-input[type='range']:focus::-ms-fill-lower {
-  background: lightgray;
-}
-
-input[type='range']:focus::-ms-fill-upper {
-  background: lightgray;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }

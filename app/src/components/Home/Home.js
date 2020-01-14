@@ -16,6 +16,7 @@ export default class Home extends React.Component {
     };
 
     this.state = {
+      currentPageIndex: 0,
       isLoading: true,
       images: [],
       showModal: false,
@@ -49,13 +50,15 @@ export default class Home extends React.Component {
         this.setState(() => ({
           isLoading: false,
           images: resp,
+          currentPageIndex: this.queryParameters.pageIndex,
         }));
       })
       .catch(() => {
+        this.queryParameters.pageIndex = lastPageIndex;
         this.setState(() => ({
           isLoading: false,
+          currentPageIndex: this.queryParameters.pageIndex,
         }));
-        this.queryParameters.pageIndex = lastPageIndex;
       });
   };
 
@@ -103,41 +106,46 @@ export default class Home extends React.Component {
   };
 
   render() {
-    const searchBar = (
-      <div>
+    const header = (
+      <div className="filter-container">
         <input
           type="text"
           name="width"
-          placeholder="Search by width..."
-          className="form-control app-search-bar"
+          placeholder="Width..."
+          className="form-control filter-item filter-search-bar"
           onChange={this.handleSearchChange}
         />
         <input
           type="text"
           name="height"
-          placeholder="Search by height..."
-          className="form-control app-search-bar"
+          placeholder="Height..."
+          className="form-control filter-item filter-search-bar"
           onChange={this.handleSearchChange}
         />
-        <Button onClick={this.filterImages}>Search</Button>
+        <Button className="form-control filter-item" onClick={this.filterImages}>
+          Filter
+        </Button>
       </div>
     );
 
-    const imageCards = !this.state.isLoading ? (
-      <Gallery photos={this.state.images} onClick={this.handleCardClick} direction={'column'} />
-    ) : null;
-
-    const prevButton = (
-      <div className="prev-button-container btn-primary" onClick={() => this.handleUpdatePageIndex(-1)}>
-        <span>&larr;</span>
+    const footer = (
+      <div className="page-index-container">
+        <Button className="form-control page-index-item btn-light" onClick={() => this.handleUpdatePageIndex(-1)}>
+          Previous
+        </Button>
+        <span className="page-index-item page-index">{this.state.currentPageIndex + 1}</span>
+        <Button className="form-control page-index-item" onClick={() => this.handleUpdatePageIndex(1)}>
+          Next
+        </Button>
       </div>
     );
 
-    const nextButton = (
-      <div className="next-button-container btn-primary" onClick={() => this.handleUpdatePageIndex(1)}>
-        <span>&rarr;</span>
-      </div>
-    );
+    const body =
+      !this.state.isLoading && this.state.images.length > 0 ? (
+        <div>
+          <Gallery photos={this.state.images} onClick={this.handleCardClick} direction={'column'} />
+        </div>
+      ) : null;
 
     const imageModal =
       this.state.showModal && this.state.selectedImage !== null ? (
@@ -149,17 +157,25 @@ export default class Home extends React.Component {
               </Button>
             </div>
             <div className="app-modal-item">
-              <FormGroup controlId="isGray" className="signup-checkbox-container">
+              <h5 className>Source: {this.state.selectedImage.src}</h5>
+            </div>
+            <div className="app-modal-item">
+              <span>
+                ({this.state.selectedImage.width} x {this.state.selectedImage.height})
+              </span>
+            </div>
+            <div className="app-modal-item">
+              <FormGroup controlId="isGray" className="checkbox-container">
                 <FormControl
                   value={this.state.selectedImage.isGray}
                   onChange={event => this.handleChange(event, this.state.selectedImage)}
                   type="checkbox"
-                  className="signup-checkbox"
+                  className="checkbox"
                 />
-                <FormLabel className="signup-checkbox-label">Is Gray?</FormLabel>
+                <FormLabel className="checkbox-label">Show in grayscale?</FormLabel>
               </FormGroup>
             </div>
-            <div className="app-modal-item">
+            <div className="app-modal-item img-container">
               <img
                 src={
                   this.state.selectedImage.isGray
@@ -175,10 +191,9 @@ export default class Home extends React.Component {
 
     return (
       <div className="home">
-        <div>{searchBar}</div>
-        <div className="card-container">{imageCards}</div>
-        <div>{prevButton}</div>
-        <div>{nextButton}</div>
+        <div className="home-header">{header}</div>
+        <div className="home-body">{body}</div>
+        <div className="home-footer">{footer}</div>
         <div>{imageModal}</div>
       </div>
     );
