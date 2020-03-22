@@ -1,4 +1,4 @@
-# Photo Viewer Application for goTenna
+# Photo Viewer Application
 
 Project to implement a photo viewer application using
 Python, Flask, FlaskRestPlus, and Pandas.
