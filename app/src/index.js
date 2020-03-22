@@ -11,7 +11,7 @@ const routing = (
   <Router>
     <div className="router">
       <div className="router-menu" id="router-menu">
-        <h5 className="router-menu-header">goTennagram</h5>
+        <h5 className="router-menu-header">photogram</h5>
       </div>
       <div className="router-view">
         <Route exact path="/" component={Home} />
